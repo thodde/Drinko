@@ -1,0 +1,206 @@
+//
+//  MyScene.m
+//  Drinko
+//
+//  Created by Trevor Hodde
+//  Copyright (c) 2014 Trevor Hodde. All rights reserved.
+//
+
+#import "PlinkoScene.h"
+#import <QuartzCore/QuartzCore.h>
+#import <CoreMotion/CoreMotion.h>
+
+@implementation PlinkoScene
+{
+    CMMotionManager *_motionManager;
+}
+
+-(id)initWithSize:(CGSize)size {    
+    if (self = [super initWithSize:size]) {
+        [self createSceneContents];
+    }
+    return self;
+}
+
+
+- (void)createSceneContents
+{
+    self.backgroundColor = [SKColor whiteColor];
+    
+    SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"MarkerFelt-Thin"];
+    
+    myLabel.fontColor = [SKColor blueColor];
+    myLabel.text = @"Drink-O";
+    myLabel.fontSize = 40;
+    
+    myLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetHeight(self.frame)-80);
+    
+    CGSize inset = CGSizeMake(25, 25);
+    CGRect pegRect = CGRectInset(self.frame, inset.width, inset.height);
+    
+    //Add the pegs...
+    NSInteger cols = 6;
+    NSInteger rows = 11;
+    
+    CGFloat rowSpacing = CGRectGetHeight(pegRect)/rows;
+    CGFloat colSpacing = CGRectGetWidth(pegRect)/cols + 2;
+    
+    CGFloat  colOffset = inset.width-(colSpacing/2.);
+    CGFloat  rowOffset = inset.height-(rowSpacing/2.);
+    
+    // These loops create all the pegs in alternating rows
+    for (int row=1;row<=rows;row++)
+    {
+        for (int col=1;col<=cols;col++)
+        {
+            CGPoint loc = CGPointMake(colOffset+colSpacing*col,rowOffset+rowSpacing*row);
+            BOOL isAltRow = (row % 2)==0;
+            
+            if (isAltRow && col == cols)
+                continue;
+            
+            if (isAltRow)
+                loc.x += colSpacing/2;
+            
+            SKSpriteNode *peg = [self createPeg:loc];
+            if (isAltRow) {
+                peg.color = [SKColor magentaColor];
+            }
+        }
+    }
+    
+    // This loop creates the walls at the bottom of the game that separates each final position
+    for(int wall=1; wall <= cols; wall++) {
+        CGPoint wallLoc = CGPointMake(colOffset+colSpacing*wall, 10);
+        [self createBucket:wallLoc];
+    }
+    
+    [self addChild:myLabel];
+    
+    self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
+    [self startMotionUpdates];
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    UITouch *touch = [touches anyObject];
+    CGPoint clickPoint = [touch locationInNode:self];
+
+    SKNode *node = [self nodeAtPoint:clickPoint];
+    
+    if (node && ![node.name isEqualToString:@"puck"])
+    {
+        [self createPuck:clickPoint];
+    }
+    
+
+}
+
+- (SKSpriteNode *)createPeg:(CGPoint)loc
+{
+    // Create the pegs -- try changing the sizes here
+    SKSpriteNode *peg = [SKSpriteNode spriteNodeWithColor:[SKColor orangeColor] size:CGSizeMake(8, 10)];
+    peg.position = loc;
+    
+    SKAction *fadeIn = [SKAction fadeInWithDuration:.6];
+    [peg runAction:fadeIn];
+    
+    //SKAction *rotate = [SKAction repeatActionForever:[SKAction rotateByAngle:3.1416*2 duration:6.]];
+    //[peg runAction:[SKAction sequence:@[[SKAction waitForDuration:.2 withRange:.8],rotate]]];
+    
+    peg.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:CGRectMake(0, 0, 1, 10)];
+    peg.physicsBody.affectedByGravity = NO;
+    
+    [self addChild:peg];
+
+    return peg;
+}
+
+// Tell the user what to drink based on where their puck landed
+-(void)displayAlert:(NSInteger)bucket
+{
+    UIAlertView* alert;
+    switch (bucket) {
+        case 0:
+            alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Beer!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            break;
+        case 1:
+            alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Shot!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        case 2:
+            alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"x2!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        case 3:
+            alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Shot!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        case 4:
+            alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Give one!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        case 5:
+            alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Pass!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        case 6:
+            alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Beer!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        default:
+            break;
+    }
+    
+    [alert show];
+}
+
+// TODO: Add MAX_PUCKS so users cannot continuously drop pucks
+- (void)createPuck:(CGPoint)loc
+{
+    SKSpriteNode *puck = [SKSpriteNode spriteNodeWithImageNamed:@"puck"];
+    puck.name = @"puck";
+    puck.position = loc;
+    puck.alpha = 0.;
+    puck.size = CGSizeMake(1, 1);
+    
+    puck.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:10];
+    puck.physicsBody.restitution = .8;
+    puck.physicsBody.dynamic = YES;
+
+    SKAction *fadeIn = [SKAction fadeInWithDuration:.6];
+    SKAction *scale = [SKAction scaleBy:20 duration:.3];
+    [puck runAction:[SKAction group:@[fadeIn,scale]]];
+
+    [self addChild:puck];
+}
+
+- (void)startMotionUpdates
+{
+    if (!_motionManager)
+        _motionManager =[[CMMotionManager alloc] init];
+    NSOperationQueue *aQueue=[[NSOperationQueue alloc] init];
+    
+    [_motionManager setDeviceMotionUpdateInterval:1./10];
+    [_motionManager startDeviceMotionUpdatesToQueue:aQueue withHandler:^(CMDeviceMotion *motion, NSError *error) {
+        
+        if (motion) {
+            //CGPoint gravity = CGPointMake(motion.gravity.x*9.8, motion.gravity.y*9.8);
+            //self.physicsWorld.gravity = CGVectorMake(motion.gravity.x*9.8, motion.gravity.y*9.8);
+            self.physicsWorld.gravity = CGVectorMake(motion.gravity.x*2, motion.gravity.y*2);
+        }
+    }];
+}
+
+- (void)stopMotionUpdates
+{
+    [_motionManager stopDeviceMotionUpdates];
+}
+
+// Create the bottom buckets
+- (SKSpriteNode *)createBucket:(CGPoint)loc
+{
+    // Create the buckets at the bottom of the screen
+    SKSpriteNode *line = [SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:CGSizeMake(2, 40)];
+    line.position = loc;
+    
+    SKAction *fadeIn = [SKAction fadeInWithDuration:.6];
+    [line runAction:fadeIn];
+    
+    line.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:CGRectMake(0, 0, 1, 10)];
+    line.physicsBody.affectedByGravity = NO;
+    
+    [self addChild:line];
+    
+    return line;
+}
+
+@end

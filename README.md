@@ -1,4 +1,2 @@
-Drinko
+plinko
 ======
-
-A drinking game

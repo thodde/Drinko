@@ -1,0 +1,15 @@
+//
+//  AppDelegate.h
+//  Drinko
+//
+//  Created by Trevor Hodde
+//  Copyright (c) 2014 Trevor Hodde. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
+
+@property (strong, nonatomic) UIWindow *window;
+
+@end
