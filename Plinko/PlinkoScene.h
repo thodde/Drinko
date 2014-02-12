@@ -10,4 +10,8 @@
 
 @interface PlinkoScene : SKScene
 
+extern SKSpriteNode *puck;
+extern NSInteger puckCount;
+extern NSInteger const MAX_PUCKS;
+
 @end

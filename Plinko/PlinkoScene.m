@@ -10,6 +10,16 @@
 #import <QuartzCore/QuartzCore.h>
 #import <CoreMotion/CoreMotion.h>
 
+// make the puck object global so we can track its position
+SKSpriteNode *puck;
+
+// this is responsible for tracking the number of pucks
+NSInteger puckCount;
+
+// Change this var if we want there to be more pucks per round
+NSInteger const MAX_PUCKS = 1;
+
+
 @implementation PlinkoScene
 {
     CMMotionManager *_motionManager;
@@ -90,7 +100,10 @@
     
     if (node && ![node.name isEqualToString:@"puck"])
     {
-        [self createPuck:clickPoint];
+        // make sure the user cannot continuously drop pucks
+        if(puckCount != MAX_PUCKS) {
+            [self createPuck:clickPoint];
+        }
     }
     
 
@@ -146,7 +159,7 @@
 // TODO: Add MAX_PUCKS so users cannot continuously drop pucks
 - (void)createPuck:(CGPoint)loc
 {
-    SKSpriteNode *puck = [SKSpriteNode spriteNodeWithImageNamed:@"puck"];
+    puck = [SKSpriteNode spriteNodeWithImageNamed:@"puck"];
     puck.name = @"puck";
     puck.position = loc;
     puck.alpha = 0.;
@@ -155,11 +168,12 @@
     puck.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:10];
     puck.physicsBody.restitution = .8;
     puck.physicsBody.dynamic = YES;
+    puckCount = puckCount + 1;
 
     SKAction *fadeIn = [SKAction fadeInWithDuration:.6];
     SKAction *scale = [SKAction scaleBy:20 duration:.3];
     [puck runAction:[SKAction group:@[fadeIn,scale]]];
-
+    
     [self addChild:puck];
 }
 
