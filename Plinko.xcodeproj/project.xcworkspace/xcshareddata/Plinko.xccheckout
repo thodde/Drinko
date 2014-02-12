@@ -2,37 +2,39 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>2E2C92F8-2E70-41EC-B08A-D936B91EDB2E</string>
+	<string>2A7A5C31-4BF6-4D8A-AE9B-4E4C71AAF543</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Plinko</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>94468E15-5EFA-4C88-B510-BA5015734B33</key>
-		<string>ssh://github.com/joshrl/Plinko.git</string>
+		<key>7590F10D-230E-4525-9FC3-7E84E50D6FBA</key>
+		<string>https://github.com/thodde/Drinko.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Plinko.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>94468E15-5EFA-4C88-B510-BA5015734B33</key>
+		<key>7590F10D-230E-4525-9FC3-7E84E50D6FBA</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/joshrl/Plinko.git</string>
+	<string>https://github.com/thodde/Drinko.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>94468E15-5EFA-4C88-B510-BA5015734B33</string>
+	<string>7590F10D-230E-4525-9FC3-7E84E50D6FBA</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>94468E15-5EFA-4C88-B510-BA5015734B33</string>
+			<string>7590F10D-230E-4525-9FC3-7E84E50D6FBA</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Plinko</string>
+			<string>Drinko</string>
 		</dict>
 	</array>
 </dict>

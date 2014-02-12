@@ -32,14 +32,13 @@ NSInteger const MAX_PUCKS = 1;
     return self;
 }
 
-
 - (void)createSceneContents
 {
-    self.backgroundColor = [SKColor whiteColor];
+    self.backgroundColor = [SKColor blueColor];
     
     SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"MarkerFelt-Thin"];
     
-    myLabel.fontColor = [SKColor blueColor];
+    myLabel.fontColor = [SKColor yellowColor];
     myLabel.text = @"Drink-O";
     myLabel.fontSize = 40;
     
@@ -74,7 +73,7 @@ NSInteger const MAX_PUCKS = 1;
             
             SKSpriteNode *peg = [self createPeg:loc];
             if (isAltRow) {
-                peg.color = [SKColor magentaColor];
+                peg.color = [SKColor whiteColor];
             }
         }
     }
@@ -105,14 +104,12 @@ NSInteger const MAX_PUCKS = 1;
             [self createPuck:clickPoint];
         }
     }
-    
-
 }
 
 - (SKSpriteNode *)createPeg:(CGPoint)loc
 {
     // Create the pegs -- try changing the sizes here
-    SKSpriteNode *peg = [SKSpriteNode spriteNodeWithColor:[SKColor orangeColor] size:CGSizeMake(8, 10)];
+    SKSpriteNode *peg = [SKSpriteNode spriteNodeWithColor:[SKColor greenColor] size:CGSizeMake(8, 10)];
     peg.position = loc;
     
     SKAction *fadeIn = [SKAction fadeInWithDuration:.6];
@@ -139,16 +136,22 @@ NSInteger const MAX_PUCKS = 1;
             break;
         case 1:
             alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Shot!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            break;
         case 2:
             alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"x2!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            break;
         case 3:
             alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Shot!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            break;
         case 4:
             alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Give one!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            break;
         case 5:
             alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Pass!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            break;
         case 6:
             alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Beer!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            break;
         default:
             break;
     }
@@ -156,7 +159,6 @@ NSInteger const MAX_PUCKS = 1;
     [alert show];
 }
 
-// TODO: Add MAX_PUCKS so users cannot continuously drop pucks
 - (void)createPuck:(CGPoint)loc
 {
     puck = [SKSpriteNode spriteNodeWithImageNamed:@"puck"];
@@ -183,12 +185,15 @@ NSInteger const MAX_PUCKS = 1;
         _motionManager =[[CMMotionManager alloc] init];
     NSOperationQueue *aQueue=[[NSOperationQueue alloc] init];
     
+    // TODO: FIGURE OUT WHERE THIS GOES
+//    if(puck.position.y < 10) {
+//        [self displayAlert:0];
+//    }
+    
     [_motionManager setDeviceMotionUpdateInterval:1./10];
     [_motionManager startDeviceMotionUpdatesToQueue:aQueue withHandler:^(CMDeviceMotion *motion, NSError *error) {
         
         if (motion) {
-            //CGPoint gravity = CGPointMake(motion.gravity.x*9.8, motion.gravity.y*9.8);
-            //self.physicsWorld.gravity = CGVectorMake(motion.gravity.x*9.8, motion.gravity.y*9.8);
             self.physicsWorld.gravity = CGVectorMake(motion.gravity.x*2, motion.gravity.y*2);
         }
     }];
