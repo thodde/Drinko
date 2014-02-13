@@ -19,6 +19,7 @@ NSInteger puckCount;
 // Change this var if we want there to be more pucks per round
 NSInteger const MAX_PUCKS = 1;
 
+// use this timer a bunch for checking state information periodically
 NSTimer *timer;
 
 @implementation PlinkoScene
@@ -33,6 +34,7 @@ NSTimer *timer;
     return self;
 }
 
+// set up the environment -- probably use this to reset state information between rounds
 - (void)createSceneContents
 {
     self.backgroundColor = [SKColor blueColor];
@@ -59,10 +61,8 @@ NSTimer *timer;
     CGFloat  rowOffset = inset.height-(rowSpacing/2.);
     
     // These loops create all the pegs in alternating rows
-    for (int row=1;row<=rows;row++)
-    {
-        for (int col=1;col<=cols;col++)
-        {
+    for (int row=1;row<=rows;row++) {
+        for (int col=1;col<=cols;col++) {
             CGPoint loc = CGPointMake(colOffset+colSpacing*col,rowOffset+rowSpacing*row);
             BOOL isAltRow = (row % 2)==0;
             
@@ -98,8 +98,7 @@ NSTimer *timer;
 
     SKNode *node = [self nodeAtPoint:clickPoint];
     
-    if (node && ![node.name isEqualToString:@"puck"])
-    {
+    if (node && ![node.name isEqualToString:@"puck"]) {
         // make sure the user cannot continuously drop pucks
         if(puckCount != MAX_PUCKS) {
             [self createPuck:clickPoint];
@@ -151,16 +150,15 @@ NSTimer *timer;
         case 5:
             alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Pass!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             break;
-        case 6:
-            alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Beer!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            break;
         default:
+            alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Beer!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             break;
     }
     
     [alert show];
 }
 
+// set up the puck and all its state info
 - (void)createPuck:(CGPoint)loc
 {
     puck = [SKSpriteNode spriteNodeWithImageNamed:@"puck"];
@@ -181,13 +179,18 @@ NSTimer *timer;
     [self addChild:puck];
 }
 
+// Determine if the puck has stopped moving
 - (NSInteger)isPuckResting
 {
+    // make sure the puck exists -- CHANGE THIS if we ever decide to add more pucks
     if(puckCount > 0) {
+        // check if the puck has reached the bottom of the screen
         if(puck.position.y < 15) {
+            // kill the timer once the puck stops
             if(timer) {
                 [timer invalidate];
             }
+            //stop checking the state of motion
             [self stopMotionUpdates];
         }
         return 1;
@@ -195,59 +198,68 @@ NSTimer *timer;
     return 0;
 }
 
-//TODO: make this handle all of the buckets. VERY CLOSE!!
+// Use the position of the puck to determine which bucket
+// it fell into
 - (NSInteger)getPuckBucket
 {
+    // kill the timer if its still running
     if(timer)
         [timer invalidate];
     
-    if(puck.position.x > 0 && (puck.position.x < self.frame.size.width / 6)) {
-        NSLog(@"X pos: %f", puck.position.x);
+    if(puck.position.x >= 0 && (puck.position.x <= self.frame.size.width / 6)) {
+        //NSLog(@"Beer: X pos: %f", puck.position.x);
         return 0;
     }
-    else if(puck.position.x > (self.frame.size.width / 6) && (puck.position.x < (self.frame.size.width / 6)*2)) {
-        NSLog(@"X pos: %f", puck.position.x);
+    else if(puck.position.x > (self.frame.size.width / 6) && (puck.position.x <= (self.frame.size.width / 6)*2)) {
+        //NSLog(@"Shot: X pos: %f", puck.position.x);
         return 1;
     }
-    else if(puck.position.x > (self.frame.size.width / 6)*2 && (puck.position.x < (self.frame.size.width / 6)*3)) {
-        NSLog(@"X pos: %f", puck.position.x);
+    else if(puck.position.x > (self.frame.size.width / 6)*2 && (puck.position.x <= (self.frame.size.width / 6)*3)) {
+        //NSLog(@"x2: X pos: %f", puck.position.x);
         return 2;
     }
-    else if(puck.position.x > (self.frame.size.width / 6)*3 && (puck.position.x < (self.frame.size.width / 6)*4)) {
-        NSLog(@"X pos: %f", puck.position.x);
+    else if(puck.position.x > (self.frame.size.width / 6)*3 && (puck.position.x <= (self.frame.size.width / 6)*4)) {
+        //NSLog(@"Pass: X pos: %f", puck.position.x);
         return 3;
     }
-    else if(puck.position.x > (self.frame.size.width / 6)*4 && (puck.position.x < (self.frame.size.width / 6)*5)) {
-        NSLog(@"X pos: %f", puck.position.x);
+    else if(puck.position.x > (self.frame.size.width / 6)*4 && (puck.position.x <= (self.frame.size.width / 6)*5)) {
+        //NSLog(@"Give: X pos: %f", puck.position.x);
         return 4;
     }
-    else if(puck.position.x > (self.frame.size.width / 6)*6) {
-        NSLog(@"X pos: %f", puck.position.x);
+    else if(puck.position.x > (self.frame.size.width / 6)*5) {
+        //NSLog(@"Shot: X pos: %f", puck.position.x);
         return 5;
     }
     else
-        return 1;
+        return 0;
 }
 
+// check for motion updates periodically
 - (void)startMotionUpdates
 {
+    //set up the motion manager
     if (!_motionManager)
         _motionManager =[[CMMotionManager alloc] init];
     
+    // check every 1 ms for changes
     _motionManager.deviceMotionUpdateInterval = 0.01;
     [_motionManager startDeviceMotionUpdates];
-        
+    
+    // go see if the puck is at rest every 1 ms until it is actually at rest
     timer = [NSTimer scheduledTimerWithTimeInterval:1/10 target:self selector:@selector(isPuckResting) userInfo:nil repeats:YES];
 }
 
+// end all motion management
 - (void)stopMotionUpdates
 {
     [_motionManager stopDeviceMotionUpdates];
     
+    // determine the bucket the puck is sitting in
     timer = [NSTimer scheduledTimerWithTimeInterval:1/10 target:self selector:@selector(getPuckBucket) userInfo:nil repeats:YES];
     
     NSInteger bucket = [self getPuckBucket];
 
+    // display what to do based on the puck location
     [self displayAlert:bucket];
 }
 
