@@ -7,6 +7,7 @@
 //
 
 #import "PlinkoScene.h"
+#import "ViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import <CoreMotion/CoreMotion.h>
 
@@ -21,6 +22,9 @@ NSInteger const MAX_PUCKS = 1;
 
 // use this timer a bunch for checking state information periodically
 NSTimer *timer;
+
+NSString *strNumberOfPlayers;
+NSInteger *numberOfPlayers;
 
 @implementation PlinkoScene
 {
@@ -161,6 +165,10 @@ NSTimer *timer;
 // set up the puck and all its state info
 - (void)createPuck:(CGPoint)loc
 {
+    // by the time we reach this point, we know how many players there are
+    strNumberOfPlayers = textField.text;
+    numberOfPlayers = (NSInteger*)[strNumberOfPlayers intValue];
+    
     puck = [SKSpriteNode spriteNodeWithImageNamed:@"puck"];
     puck.name = @"puck";
     puck.position = loc;
@@ -279,6 +287,17 @@ NSTimer *timer;
     [self addChild:line];
     
     return line;
+}
+
+// used for resetting the game once the user has played a round
+- (void)resetAllStates
+{
+    puckCount = 0;
+    puck = nil;
+    timer = nil;
+    _motionManager = nil;
+    strNumberOfPlayers = @"";
+    numberOfPlayers = 0;
 }
 
 @end

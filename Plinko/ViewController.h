@@ -11,4 +11,6 @@
 
 @interface ViewController : UIViewController
 
+extern UITextField *textField;
+
 @end

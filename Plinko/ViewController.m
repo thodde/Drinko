@@ -8,6 +8,9 @@
 
 #import "ViewController.h"
 #import "PlinkoScene.h"
+#import <QuartzCore/QuartzCore.h>
+
+UITextField *textField;
 
 @implementation ViewController
 
@@ -26,6 +29,21 @@
     
     // Present the scene.
     [skView presentScene:scene];
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex == 0)
+        exit(0);
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    // when the screen loads, ask the user for the number of players
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Drink-O" message:@"Enter the number of players:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    textField = [alertView textFieldAtIndex:0];
+    [alertView show];
 }
 
 - (BOOL)shouldAutorotate
