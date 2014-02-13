@@ -19,6 +19,7 @@ NSInteger puckCount;
 // Change this var if we want there to be more pucks per round
 NSInteger const MAX_PUCKS = 1;
 
+NSTimer *timer;
 
 @implementation PlinkoScene
 {
@@ -168,7 +169,7 @@ NSInteger const MAX_PUCKS = 1;
     puck.size = CGSizeMake(1, 1);
     
     puck.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:10];
-    puck.physicsBody.restitution = .8;
+    puck.physicsBody.restitution = .7;
     puck.physicsBody.dynamic = YES;
     puckCount = puckCount + 1;
 
@@ -181,16 +182,28 @@ NSInteger const MAX_PUCKS = 1;
 
 - (NSInteger)isPuckResting
 {
-    if(puck.physicsBody.isResting) {
-        if(puck.position.y < 10) {
-            [self displayAlert:0];
+    if(puckCount > 0) {
+        if(puck.position.y < 15) {
+            if(timer) {
+                [timer invalidate];
+            }
+            [self stopMotionUpdates];
         }
         return 1;
     }
     return 0;
 }
 
-//NOT DONE
+//TODO: make this handle all of the buckets...
+- (NSInteger)getPuckBucket
+{
+    if(puck.position.x > 0 && puck.position.x < self.frame.size.width / 6) {
+        NSLog(@"X pos: %f", puck.position.x);
+        return 0;
+    }
+    return 1;
+}
+
 - (void)startMotionUpdates
 {
     if (!_motionManager)
@@ -199,14 +212,18 @@ NSInteger const MAX_PUCKS = 1;
     _motionManager.deviceMotionUpdateInterval = 0.01;
     [_motionManager startDeviceMotionUpdates];
         
-    CMDeviceMotion *devMotion = _motionManager.deviceMotion;
-    //if(devMotion.attitude)
-    [self isPuckResting];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1/10 target:self selector:@selector(isPuckResting) userInfo:nil repeats:YES];
 }
 
+// TODO: make this repeat until there is no more motion and then print the bucket
 - (void)stopMotionUpdates
 {
     [_motionManager stopDeviceMotionUpdates];
+    
+    timer = [NSTimer scheduledTimerWithTimeInterval:1/10 target:self selector:@selector(getPuckBucket) userInfo:nil repeats:YES];
+
+    //dummy bucket for now
+    [self displayAlert:0];
 }
 
 // Create the bottom buckets
