@@ -17,8 +17,8 @@ SKSpriteNode *puck;
 // this is responsible for tracking the number of pucks
 NSInteger puckCount;
 
-// Change this var if we want there to be more pucks per round
-NSInteger const MAX_PUCKS = 1;
+// TREAT THIS AS A CONSTANT -- Change this var if we want there to be more pucks per round
+NSInteger *MAX_PUCKS = (NSInteger *)1;
 
 // use this timer a bunch for checking state information periodically
 NSTimer *timer;
@@ -103,8 +103,8 @@ NSInteger *numberOfPlayers;
     SKNode *node = [self nodeAtPoint:clickPoint];
     
     if (node && ![node.name isEqualToString:@"puck"]) {
-        // make sure the user cannot continuously drop pucks
-        if(puckCount != MAX_PUCKS) {
+        // make sure the users cannot continuously drop pucks
+        if(puckCount < MAX_PUCKS) {
             [self createPuck:clickPoint];
         }
     }
@@ -168,7 +168,12 @@ NSInteger *numberOfPlayers;
     // by the time we reach this point, we know how many players there are
     strNumberOfPlayers = textField.text;
     numberOfPlayers = (NSInteger*)[strNumberOfPlayers intValue];
+
+    // set the number of pucks to use ONLY here
+    MAX_PUCKS = numberOfPlayers;
     
+    // TODO: Make array of pucks with size = MAX_PUCKS
+    // then loop through this section for each player
     puck = [SKSpriteNode spriteNodeWithImageNamed:@"puck"];
     puck.name = @"puck";
     puck.position = loc;

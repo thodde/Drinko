@@ -12,7 +12,7 @@
 
 extern SKSpriteNode *puck;
 extern NSInteger puckCount;
-extern NSInteger const MAX_PUCKS;
+extern NSInteger* MAX_PUCKS;
 extern NSString* strNumberOfPlayers;
 extern NSInteger* numberOfPlayers;
 
