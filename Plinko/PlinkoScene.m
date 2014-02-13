@@ -116,8 +116,9 @@ NSTimer *timer;
     SKAction *fadeIn = [SKAction fadeInWithDuration:.6];
     [peg runAction:fadeIn];
     
-    //SKAction *rotate = [SKAction repeatActionForever:[SKAction rotateByAngle:3.1416*2 duration:6.]];
-    //[peg runAction:[SKAction sequence:@[[SKAction waitForDuration:.2 withRange:.8],rotate]]];
+    // prevents the ball from getting stuck... is it too weird?
+    SKAction *rotate = [SKAction repeatActionForever:[SKAction rotateByAngle:3.1416*2 duration:6.]];
+    [peg runAction:[SKAction sequence:@[[SKAction waitForDuration:.2 withRange:.8],rotate]]];
     
     peg.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:CGRectMake(0, 0, 1, 10)];
     peg.physicsBody.affectedByGravity = NO;
@@ -194,14 +195,38 @@ NSTimer *timer;
     return 0;
 }
 
-//TODO: make this handle all of the buckets...
+//TODO: make this handle all of the buckets. VERY CLOSE!!
 - (NSInteger)getPuckBucket
 {
-    if(puck.position.x > 0 && puck.position.x < self.frame.size.width / 6) {
+    if(timer)
+        [timer invalidate];
+    
+    if(puck.position.x > 0 && (puck.position.x < self.frame.size.width / 6)) {
         NSLog(@"X pos: %f", puck.position.x);
         return 0;
     }
-    return 1;
+    else if(puck.position.x > (self.frame.size.width / 6) && (puck.position.x < (self.frame.size.width / 6)*2)) {
+        NSLog(@"X pos: %f", puck.position.x);
+        return 1;
+    }
+    else if(puck.position.x > (self.frame.size.width / 6)*2 && (puck.position.x < (self.frame.size.width / 6)*3)) {
+        NSLog(@"X pos: %f", puck.position.x);
+        return 2;
+    }
+    else if(puck.position.x > (self.frame.size.width / 6)*3 && (puck.position.x < (self.frame.size.width / 6)*4)) {
+        NSLog(@"X pos: %f", puck.position.x);
+        return 3;
+    }
+    else if(puck.position.x > (self.frame.size.width / 6)*4 && (puck.position.x < (self.frame.size.width / 6)*5)) {
+        NSLog(@"X pos: %f", puck.position.x);
+        return 4;
+    }
+    else if(puck.position.x > (self.frame.size.width / 6)*6) {
+        NSLog(@"X pos: %f", puck.position.x);
+        return 5;
+    }
+    else
+        return 1;
 }
 
 - (void)startMotionUpdates
@@ -215,15 +240,15 @@ NSTimer *timer;
     timer = [NSTimer scheduledTimerWithTimeInterval:1/10 target:self selector:@selector(isPuckResting) userInfo:nil repeats:YES];
 }
 
-// TODO: make this repeat until there is no more motion and then print the bucket
 - (void)stopMotionUpdates
 {
     [_motionManager stopDeviceMotionUpdates];
     
     timer = [NSTimer scheduledTimerWithTimeInterval:1/10 target:self selector:@selector(getPuckBucket) userInfo:nil repeats:YES];
+    
+    NSInteger bucket = [self getPuckBucket];
 
-    //dummy bucket for now
-    [self displayAlert:0];
+    [self displayAlert:bucket];
 }
 
 // Create the bottom buckets
