@@ -179,22 +179,32 @@ NSInteger const MAX_PUCKS = 1;
     [self addChild:puck];
 }
 
+- (NSInteger)isPuckResting
+{
+    if(puck.physicsBody.isResting) {
+        if(puck.position.y < 10) {
+            [self displayAlert:0];
+        }
+        return 1;
+    }
+    return 0;
+}
+
 - (void)startMotionUpdates
 {
+    NSLog(@"HERE");
     if (!_motionManager)
         _motionManager =[[CMMotionManager alloc] init];
     NSOperationQueue *aQueue=[[NSOperationQueue alloc] init];
-    
-    // TODO: FIGURE OUT WHERE THIS GOES
-//    if(puck.position.y < 10) {
-//        [self displayAlert:0];
-//    }
     
     [_motionManager setDeviceMotionUpdateInterval:1./10];
     [_motionManager startDeviceMotionUpdatesToQueue:aQueue withHandler:^(CMDeviceMotion *motion, NSError *error) {
         
         if (motion) {
             self.physicsWorld.gravity = CGVectorMake(motion.gravity.x*2, motion.gravity.y*2);
+            
+            //THIS ISNT WORKING
+            [self isPuckResting];
         }
     }];
 }
