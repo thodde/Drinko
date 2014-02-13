@@ -133,25 +133,25 @@ NSTimer *timer;
     UIAlertView* alert;
     switch (bucket) {
         case 0:
-            alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Beer!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            alert = [[UIAlertView alloc] initWithTitle:@"Drink-O" message:@"Drink a Beer!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             break;
         case 1:
-            alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Shot!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            alert = [[UIAlertView alloc] initWithTitle:@"Drink-O" message:@"Take a Shot!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             break;
         case 2:
-            alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"x2!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            alert = [[UIAlertView alloc] initWithTitle:@"Drink-O" message:@"Drink x2!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             break;
         case 3:
-            alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Shot!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            alert = [[UIAlertView alloc] initWithTitle:@"Drink-O" message:@"Pass!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             break;
         case 4:
-            alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Give one!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            alert = [[UIAlertView alloc] initWithTitle:@"Drink-O" message:@"Give a Drink!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             break;
         case 5:
-            alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Pass!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            alert = [[UIAlertView alloc] initWithTitle:@"Drink-O" message:@"Take a Shot!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             break;
         default:
-            alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Beer!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            alert = [[UIAlertView alloc] initWithTitle:@"Drink-O" message:@"Drink a Beer!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             break;
     }
     

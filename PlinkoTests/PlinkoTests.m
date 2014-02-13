@@ -2,8 +2,8 @@
 //  PlinkoTests.m
 //  PlinkoTests
 //
-//  Created by Josh Rooke-Ley on 6/13/13.
-//  Copyright (c) 2013 Josh Rooke-Ley. All rights reserved.
+//  Created by Trevor Hodde.
+//  Copyright (c) 2014 Trevor Hodde. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
