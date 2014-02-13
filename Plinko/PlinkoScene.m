@@ -190,23 +190,18 @@ NSInteger const MAX_PUCKS = 1;
     return 0;
 }
 
+//NOT DONE
 - (void)startMotionUpdates
 {
-    NSLog(@"HERE");
     if (!_motionManager)
         _motionManager =[[CMMotionManager alloc] init];
-    NSOperationQueue *aQueue=[[NSOperationQueue alloc] init];
     
-    [_motionManager setDeviceMotionUpdateInterval:1./10];
-    [_motionManager startDeviceMotionUpdatesToQueue:aQueue withHandler:^(CMDeviceMotion *motion, NSError *error) {
+    _motionManager.deviceMotionUpdateInterval = 0.01;
+    [_motionManager startDeviceMotionUpdates];
         
-        if (motion) {
-            self.physicsWorld.gravity = CGVectorMake(motion.gravity.x*2, motion.gravity.y*2);
-            
-            //THIS ISNT WORKING
-            [self isPuckResting];
-        }
-    }];
+    CMDeviceMotion *devMotion = _motionManager.deviceMotion;
+    //if(devMotion.attitude)
+    [self isPuckResting];
 }
 
 - (void)stopMotionUpdates
