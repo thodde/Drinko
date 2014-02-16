@@ -166,11 +166,12 @@ NSInteger *numberOfPlayers;
 - (void)createPuck:(CGPoint)loc
 {
     // by the time we reach this point, we know how many players there are
-    strNumberOfPlayers = textField.text;
-    numberOfPlayers = (NSInteger*)[strNumberOfPlayers intValue];
+    //strNumberOfPlayers = textField.text;
+    //numberOfPlayers = (NSInteger*)[strNumberOfPlayers intValue];
+    numberOfPlayers = 1;
 
     // set the number of pucks to use ONLY here
-    MAX_PUCKS = numberOfPlayers;
+    MAX_PUCKS = 1;
     
     // TODO: Make array of pucks with size = MAX_PUCKS
     // then loop through this section for each player
@@ -302,7 +303,7 @@ NSInteger *numberOfPlayers;
     timer = nil;
     _motionManager = nil;
     strNumberOfPlayers = @"";
-    numberOfPlayers = 0;
+    numberOfPlayers = 1;
 }
 
 @end
