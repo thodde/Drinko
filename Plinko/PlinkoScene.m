@@ -275,6 +275,8 @@ NSInteger *numberOfPlayers;
 
     // display what to do based on the puck location
     [self displayAlert:bucket];
+    
+    [self resetAllStates];
 }
 
 // Create the bottom buckets
@@ -304,6 +306,8 @@ NSInteger *numberOfPlayers;
     _motionManager = nil;
     strNumberOfPlayers = @"";
     numberOfPlayers = 1;
+    
+    ViewController *vc = [[ViewController alloc]init];
 }
 
 @end
