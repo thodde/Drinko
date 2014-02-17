@@ -311,6 +311,10 @@ NSInteger *isFirstDrop;
 - (void)resetAllStates
 {
     puckCount = 0;
+    
+    SKAction *fadeOut = [SKAction fadeOutWithDuration:.6];
+    [puck runAction:[SKAction group:@[fadeOut]]];
+
     puck = nil;
     timer = nil;
     _motionManager = nil;
