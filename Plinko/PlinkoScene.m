@@ -165,6 +165,9 @@ NSInteger *numberOfPlayers;
 // set up the puck and all its state info
 - (void)createPuck:(CGPoint)loc
 {
+
+    if (loc.y < 400)
+    loc.y = ((int)loc.y) % 30 + 440;
     // by the time we reach this point, we know how many players there are
     //strNumberOfPlayers = textField.text;
     //numberOfPlayers = (NSInteger*)[strNumberOfPlayers intValue];
@@ -262,10 +265,12 @@ NSInteger *numberOfPlayers;
     // go see if the puck is at rest every 1 ms until it is actually at rest
     timer = [NSTimer scheduledTimerWithTimeInterval:1/10 target:self selector:@selector(isPuckResting) userInfo:nil repeats:YES];
 }
+     
 
 // end all motion management
 - (void)stopMotionUpdates
 {
+    NSLog(@"Stopping motion updates");
     [_motionManager stopDeviceMotionUpdates];
     
     // determine the bucket the puck is sitting in

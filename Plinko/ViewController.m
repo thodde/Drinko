@@ -29,6 +29,7 @@ UITextField *textField;
     
     // Present the scene.
     [skView presentScene:scene];
+    
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
