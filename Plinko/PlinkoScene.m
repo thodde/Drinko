@@ -25,6 +25,7 @@ NSTimer *timer;
 
 NSString *strNumberOfPlayers;
 NSInteger *numberOfPlayers;
+NSInteger *isFirstDrop;
 
 @implementation PlinkoScene
 {
@@ -76,12 +77,17 @@ NSInteger *numberOfPlayers;
             if (isAltRow)
                 loc.x += colSpacing/2;
             
-            SKSpriteNode *peg = [self createPeg:loc];
-            if (isAltRow) {
-                peg.color = [SKColor whiteColor];
+            // make sure the pegs dont keep regenerating
+            if(isFirstDrop == 0) {
+                SKSpriteNode *peg = [self createPeg:loc];
+                if (isAltRow) {
+                    peg.color = [SKColor whiteColor];
+                }
             }
         }
     }
+    
+    isFirstDrop = 1;
     
     // This loop creates the walls at the bottom of the game that separates each final position
     for(int wall=1; wall <= cols; wall++) {
@@ -135,6 +141,7 @@ NSInteger *numberOfPlayers;
 -(void)displayAlert:(NSInteger)bucket
 {
     UIAlertView* alert;
+    
     switch (bucket) {
         case 0:
             alert = [[UIAlertView alloc] initWithTitle:@"Drink-O" message:@"Drink a Beer!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -165,9 +172,9 @@ NSInteger *numberOfPlayers;
 // set up the puck and all its state info
 - (void)createPuck:(CGPoint)loc
 {
-
     if (loc.y < 400)
-    loc.y = ((int)loc.y) % 30 + 440;
+        loc.y = ((int)loc.y) % 30 + 440;
+    
     // by the time we reach this point, we know how many players there are
     //strNumberOfPlayers = textField.text;
     //numberOfPlayers = (NSInteger*)[strNumberOfPlayers intValue];
@@ -176,8 +183,6 @@ NSInteger *numberOfPlayers;
     // set the number of pucks to use ONLY here
     MAX_PUCKS = 1;
     
-    // TODO: Make array of pucks with size = MAX_PUCKS
-    // then loop through this section for each player
     puck = [SKSpriteNode spriteNodeWithImageNamed:@"puck"];
     puck.name = @"puck";
     puck.position = loc;
@@ -223,27 +228,27 @@ NSInteger *numberOfPlayers;
     if(timer)
         [timer invalidate];
     
-    if(puck.position.x >= 0 && (puck.position.x <= self.frame.size.width / 6)) {
+    if(puck.position.x >= 0 && (puck.position.x <= self.frame.size.width / 6) && (puck.position.y <= 12)) {
         //NSLog(@"Beer: X pos: %f", puck.position.x);
         return 0;
     }
-    else if(puck.position.x > (self.frame.size.width / 6) && (puck.position.x <= (self.frame.size.width / 6)*2)) {
+    else if(puck.position.x > (self.frame.size.width / 6) && (puck.position.x <= (self.frame.size.width / 6)*2) && (puck.position.y <= 12)) {
         //NSLog(@"Shot: X pos: %f", puck.position.x);
         return 1;
     }
-    else if(puck.position.x > (self.frame.size.width / 6)*2 && (puck.position.x <= (self.frame.size.width / 6)*3)) {
+    else if(puck.position.x > (self.frame.size.width / 6)*2 && (puck.position.x <= (self.frame.size.width / 6)*3) && (puck.position.y <= 12)) {
         //NSLog(@"x2: X pos: %f", puck.position.x);
         return 2;
     }
-    else if(puck.position.x > (self.frame.size.width / 6)*3 && (puck.position.x <= (self.frame.size.width / 6)*4)) {
+    else if(puck.position.x > (self.frame.size.width / 6)*3 && (puck.position.x <= (self.frame.size.width / 6)*4) && (puck.position.y <= 12)) {
         //NSLog(@"Pass: X pos: %f", puck.position.x);
         return 3;
     }
-    else if(puck.position.x > (self.frame.size.width / 6)*4 && (puck.position.x <= (self.frame.size.width / 6)*5)) {
+    else if(puck.position.x > (self.frame.size.width / 6)*4 && (puck.position.x <= (self.frame.size.width / 6)*5) && (puck.position.y <= 12)) {
         //NSLog(@"Give: X pos: %f", puck.position.x);
         return 4;
     }
-    else if(puck.position.x > (self.frame.size.width / 6)*5) {
+    else if(puck.position.x > (self.frame.size.width / 6)*5 && (puck.position.y <= 12)) {
         //NSLog(@"Shot: X pos: %f", puck.position.x);
         return 5;
     }
@@ -313,6 +318,7 @@ NSInteger *numberOfPlayers;
     numberOfPlayers = 1;
     
     ViewController *vc = [[ViewController alloc]init];
+    [self createSceneContents];
 }
 
 @end

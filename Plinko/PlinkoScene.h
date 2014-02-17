@@ -15,6 +15,7 @@ extern NSInteger puckCount;
 extern NSInteger* MAX_PUCKS;
 extern NSString* strNumberOfPlayers;
 extern NSInteger* numberOfPlayers;
+extern NSInteger* isFirstDrop;
 
 extern NSTimer* timer;
 
