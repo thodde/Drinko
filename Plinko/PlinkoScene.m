@@ -44,7 +44,7 @@ NSInteger *isFirstDrop;
 {
     self.backgroundColor = [SKColor blueColor];
     
-    SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"MarkerFelt-Thin"];
+    SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkboard SE Regular"];
     
     myLabel.fontColor = [SKColor yellowColor];
     myLabel.text = @"Drink-O";

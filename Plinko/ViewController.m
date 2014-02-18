@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "PlinkoScene.h"
 #import <QuartzCore/QuartzCore.h>
+#import "InfoViewController.h"
 
 UITextField *textField;
 
@@ -29,6 +30,7 @@ UITextField *textField;
     
     // Present the scene.
     [skView presentScene:scene];
+    
     
 }
 
