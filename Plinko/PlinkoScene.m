@@ -229,27 +229,27 @@ NSInteger *isFirstDrop;
         [timer invalidate];
     
     if(puck.position.x >= 0 && (puck.position.x <= self.frame.size.width / 6)) {
-        NSLog(@"Beer: X pos: %f, Y pos: %f ", puck.position.x, puck.position.y);
+        //NSLog(@"Beer: X pos: %f, Y pos: %f ", puck.position.x, puck.position.y);
         return 0;
     }
     else if(puck.position.x > (self.frame.size.width / 6) && (puck.position.x <= (self.frame.size.width / 6)*2)) {
-        NSLog(@"Shot: X pos: %f, Y pos: %f ", puck.position.x, puck.position.y);
+        //NSLog(@"Shot: X pos: %f, Y pos: %f ", puck.position.x, puck.position.y);
         return 1;
     }
     else if(puck.position.x > (self.frame.size.width / 6)*2 && (puck.position.x <= (self.frame.size.width / 6)*3)) {
-        NSLog(@"x2: X pos: %f, Y pos: %f ", puck.position.x, puck.position.y);
+        //NSLog(@"x2: X pos: %f, Y pos: %f ", puck.position.x, puck.position.y);
         return 2;
     }
     else if(puck.position.x > (self.frame.size.width / 6)*3 && (puck.position.x <= (self.frame.size.width / 6)*4)) {
-        NSLog(@"Pass: X pos: %f, Y pos: %f ", puck.position.x, puck.position.y);
+        //NSLog(@"Pass: X pos: %f, Y pos: %f ", puck.position.x, puck.position.y);
         return 3;
     }
     else if(puck.position.x > (self.frame.size.width / 6)*4 && (puck.position.x <= (self.frame.size.width / 6)*5)) {
-        NSLog(@"Give: X pos: %f, Y pos: %f ", puck.position.x, puck.position.y);
+        //NSLog(@"Give: X pos: %f, Y pos: %f ", puck.position.x, puck.position.y);
         return 4;
     }
     else if(puck.position.x > (self.frame.size.width / 6)*5) {
-        NSLog(@"Shot: X pos: %f, Y pos: %f ", puck.position.x, puck.position.y);
+        //NSLog(@"Shot: X pos: %f, Y pos: %f ", puck.position.x, puck.position.y);
         return 5;
     }
     else
