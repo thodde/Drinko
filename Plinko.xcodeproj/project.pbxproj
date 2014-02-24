@@ -24,6 +24,7 @@
 		0E450DF3176A739400F7F609 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E450DF1176A739400F7F609 /* InfoPlist.strings */; };
 		0E450DF5176A739400F7F609 /* PlinkoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E450DF4176A739400F7F609 /* PlinkoTests.m */; };
 		0E65615D176AE2FB00AC931F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E65615C176AE2FB00AC931F /* CoreMotion.framework */; };
+		AB70881718BC126900DB0837 /* HowToPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB70881618BC126900DB0837 /* HowToPlayViewController.m */; };
 		AB7A045E18B2E9BD008E1DDC /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB7A045D18B2E9BD008E1DDC /* InfoViewController.m */; };
 		AB7A046118B2EC18008E1DDC /* InfoNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB7A046018B2EC18008E1DDC /* InfoNavViewController.m */; };
 /* End PBXBuildFile section */
@@ -62,6 +63,8 @@
 		0E450DF2176A739400F7F609 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0E450DF4176A739400F7F609 /* PlinkoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlinkoTests.m; sourceTree = "<group>"; };
 		0E65615C176AE2FB00AC931F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		AB70881518BC126900DB0837 /* HowToPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HowToPlayViewController.h; sourceTree = "<group>"; };
+		AB70881618BC126900DB0837 /* HowToPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HowToPlayViewController.m; sourceTree = "<group>"; };
 		AB7A045C18B2E9BD008E1DDC /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InfoViewController.h; path = ../InfoViewController.h; sourceTree = "<group>"; };
 		AB7A045D18B2E9BD008E1DDC /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InfoViewController.m; path = ../InfoViewController.m; sourceTree = "<group>"; };
 		AB7A045F18B2EC18008E1DDC /* InfoNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoNavViewController.h; sourceTree = "<group>"; };
@@ -142,6 +145,8 @@
 				0E450DCB176A739400F7F609 /* Supporting Files */,
 				AB7A045F18B2EC18008E1DDC /* InfoNavViewController.h */,
 				AB7A046018B2EC18008E1DDC /* InfoNavViewController.m */,
+				AB70881518BC126900DB0837 /* HowToPlayViewController.h */,
+				AB70881618BC126900DB0837 /* HowToPlayViewController.m */,
 			);
 			path = Plinko;
 			sourceTree = "<group>";
@@ -273,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E450DDE176A739400F7F609 /* PlinkoScene.m in Sources */,
+				AB70881718BC126900DB0837 /* HowToPlayViewController.m in Sources */,
 				0E450DDB176A739400F7F609 /* ViewController.m in Sources */,
 				AB7A046118B2EC18008E1DDC /* InfoNavViewController.m in Sources */,
 				0E450DD5176A739400F7F609 /* AppDelegate.m in Sources */,
